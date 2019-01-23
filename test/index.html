@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>js-backdrop-overlay tests</title>
+  <script src="https://cdn.jsdelivr.net/npm/ospec"></script>
+  <script src="../index.js"></script>
+  <style>
+    a img {
+      max-width: 100px;
+      max-height: 100px;
+    }
+
+    .content-overlay, .image-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: 1s background-color;
+    }
+
+    .image-overlay__main {
+      position: relative;
+    }
+    .image-overlay__main [data-action="close"] {
+      box-sizing: border-box;
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+      font-size: 24px;
+      font-family: sans-serif;
+      font-style: normal;
+      color: white;
+      background-color: black;
+      border-radius: 50%;
+      border: 2px solid white;
+      position: absolute;
+      right: -16px;
+      top: -16px;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      box-shadow: 0 0 5px black;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="test1">
+    <a href="https://placehold.it/500x30" data-overlay>
+      <img src="https://placehold.it/50x30">
+    </a>
+    <a href="https://placehold.it/500x30" data-overlay>
+      <img src="https://placehold.it/50x30">
+    </a>
+  </div>
+  <div id="test2">
+    <a href="https://placehold.it/500x300" data-overlay>
+      <img src="https://placehold.it/50x30">
+    </a>
+    <a href="https://placehold.it/500x300" data-expand>
+      <img src="https://placehold.it/50x30">
+    </a>
+  </div>
+  <script>
+
+    overlay.image({
+      selector: '#test1 [data-overlay]'
+    });
+
+    
+    o('overlay with default options', function (done) {
+      var selector = '#test1 [data-overlay]',
+        root = document.querySelector(selector);
+      setTimeout(function () {
+        o(document.querySelector('.content-overlay')).notEquals(null)('A .content-overlay element should be in the DOM');
+        done();
+      }, 100);
+    });
+
+    o.run(function (results) {
+      results.forEach(function (result) {
+        var color = result.testError ? 'red' : result.pass === true ? 'green' : 'orange';
+        console.log('%c ' + result.message, 'color: ' + color + ';');
+        if (result.testError) console.log(result.context, result.testError)
+      })
+    });
+  </script>
+</body>
+
+</html>
